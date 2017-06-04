@@ -4,17 +4,16 @@ MAINTAINER Michael Alexander <michael@micalexander.com>
 
 ARG FASTCGI_PASS
 
-RUN apk add --update bash
-
-RUN apk add --update vim
-
-RUN rm -rf /var/cache/apk/*
+RUN apk add --update \
+  bash \
+  vim \
+  && rm -rf /var/cache/apk/*
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN sed -i "s|fastcgi_pass php|fastcgi_pass ${FASTCGI_PASS}|g" /etc/nginx/nginx.conf
+COPY docker-nginx-entrypoint /usr/local/bin/
 
-EXPOSE 80
+ENTRYPOINT ["docker-nginx-entrypoint"]
 
 USER nobody
 
