@@ -11,10 +11,6 @@ RUN apk add --update \
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY docker-nginx-entrypoint /usr/local/bin/
-
-ENTRYPOINT ["docker-nginx-entrypoint"]
-
 USER nobody
 
 RUN mkdir -p /tmp/nginx/
