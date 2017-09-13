@@ -1,0 +1,27 @@
+location / {
+  try_files $uri $uri/ /index.php?$args;
+}
+
+location @rewrite {
+  rewrite ^/(.*)$ /index.php?q=$1;
+}
+
+location ~ \.php$ {
+  fastcgi_index index.php;
+  if (!-f $realpath_root$fastcgi_script_name) {
+    return 404;
+  }
+
+  include fastcgi_params;
+  fastcgi_pass php-fpm:9000;
+  fastcgi_read_timeout 3600;
+
+  fastcgi_param SITE_PATH       $sitepath;
+  fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+  fastcgi_cache_bypass $skip_cache;
+  fastcgi_no_cache $skip_cache;
+  fastcgi_cache off;
+  #fastcgi_cache APP;
+  fastcgi_cache_valid 200 301 302 60m;
+}

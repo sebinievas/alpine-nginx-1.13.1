@@ -1,0 +1,18 @@
+# block bad ips
+deny 131.155.177.218; # scraper
+deny 217.156.150.130; # gomez
+deny 203.105.73.50;   # gomez
+deny 81.207.193.47;   # monitor
+deny 160.81.118.42;   # gomez
+deny 176.9.123.212;   # scraper
+#deny 199.125.14.2;    # monitor
+deny 93.159.230.39;   # russian
+#deny 69.114.106.95;   # monitor
+
+#limit_req zone=gulag burst=200 nodelay;
+
+access_log /var/log/nginx/combined.log;
+
+location ~ /\.git* {
+  deny all;
+}
